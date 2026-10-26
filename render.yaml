@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: fithayot360-api
+    runtime: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    plan: free
+    region: frankfurt
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fithayot360-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: AUTO_CREATE_TABLES
+        value: "true"
+      - key: SEED_ON_START
+        value: "true"
+      - key: EXPOSE_RESET_TOKEN
+        value: "false"
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: ADMIN_EMAIL
+        value: admin@fithayot.uz
+      - key: ADMIN_PASSWORD
+        generateValue: true
+
+databases:
+  - name: fithayot360-db
+    databaseName: fithayot360
+    user: fithayot
+    plan: free
+    region: frankfurt

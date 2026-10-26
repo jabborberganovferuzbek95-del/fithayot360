@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.env
+.venv/
+.pytest_cache/
+*.db
+mobile/build/
+mobile/.dart_tool/
+.idea/
+*.png
+test.db
