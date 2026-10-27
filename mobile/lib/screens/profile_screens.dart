@@ -1066,14 +1066,14 @@ class ProfileScreen extends StatelessWidget {
     final goalName = goalLabels[me.profile['goal']] ?? "Sog'lom hayot yo'lida";
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF0F1512) : const Color(0xFFF7FAF8),
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text(
           "Mening profilim",
           style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
         ),
         elevation: 0,
-        backgroundColor: isDark ? const Color(0xFF141C17) : Colors.white,
+        backgroundColor: isDark ? const Color(0xFF141C17).withAlpha(220) : Colors.white.withAlpha(220),
         actions: [
           IconButton(
             tooltip: "Sozlamalar",
@@ -1090,7 +1090,9 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(width: 12),
         ],
       ),
-      body: Loader<Map<String, dynamic>>(
+      body: ScreenBackground(
+        imageName: 'profile_bg.jpg',
+        child: Loader<Map<String, dynamic>>(
         load: () => _api(context).getMap('/me/summary'),
         builder: (context, s, reload) => RefreshIndicator(
           onRefresh: reload,
@@ -1279,7 +1281,8 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ),
+  );
   }
 }
 

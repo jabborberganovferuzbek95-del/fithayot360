@@ -112,14 +112,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF0B3D20), Color(0xFF0D4F2B), Color(0xFF083018)],
-          ),
-        ),
+      body: ScreenBackground(
+        imageName: 'onboarding_bg.jpg',
+        forceDark: true,
         child: SafeArea(
           child: FadeTransition(
             opacity: _fadeAnim,
@@ -437,15 +432,14 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
 
   InputDecoration _inputDeco(String label, IconData icon, {Widget? suffix}) => InputDecoration(
     labelText: label,
-    prefixIcon: Icon(icon),
+    labelStyle: const TextStyle(color: Colors.white70),
+    prefixIcon: Icon(icon, color: kMint),
     suffixIcon: suffix,
     filled: true,
-    fillColor: Theme.of(context).brightness == Brightness.dark
-        ? Colors.white.withValues(alpha: 0.06)
-        : Colors.grey.shade50,
-    border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: Colors.grey.shade300)),
-    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: Colors.grey.shade300)),
-    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: kGreen, width: 2)),
+    fillColor: Colors.white.withValues(alpha: 0.10),
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.2))),
+    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.2))),
+    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: kMint, width: 2)),
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
   );
 
@@ -453,131 +447,184 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: FadeTransition(
-              opacity: _fade,
-              child: SlideTransition(
-                position: _slide,
-                child: Form(
-                  key: _form,
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                    // Logotip
-                    Center(
-                      child: Container(
-                        width: 72, height: 72,
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(colors: [kMint, Color(0xFF4ADE80)]),
-                          borderRadius: BorderRadius.circular(22),
-                          boxShadow: [BoxShadow(color: kMint.withValues(alpha: 0.25), blurRadius: 16, offset: const Offset(0, 6))],
-                        ),
-                        child: const Icon(Icons.eco, color: kGreenDark, size: 38),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text("Xush kelibsiz!", textAlign: TextAlign.center, style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800)),
-                    const SizedBox(height: 4),
-                    const Text("Hisobingizga kiring va davom eting", textAlign: TextAlign.center, style: TextStyle(color: Colors.grey, fontSize: 14)),
-                    const SizedBox(height: 28),
-
-                    // Social login
-                    _SocialButton(icon: Icons.g_mobiledata, label: "Google orqali kirish", onTap: () {}),
-                    const SizedBox(height: 10),
-                    _SocialButton(icon: Icons.apple, label: "Apple orqali kirish", onTap: () {}),
-                    const SizedBox(height: 20),
-
-                    // Divider
-                    Row(children: [
-                      Expanded(child: Divider(color: Colors.grey.shade300)),
-                      Padding(padding: const EdgeInsets.symmetric(horizontal: 16), child: Text("yoki", style: TextStyle(color: Colors.grey.shade500, fontSize: 13))),
-                      Expanded(child: Divider(color: Colors.grey.shade300)),
-                    ]),
-                    const SizedBox(height: 20),
-
-                    // Email
-                    TextFormField(
-                      controller: _email,
-                      keyboardType: TextInputType.emailAddress,
-                      autofillHints: const [AutofillHints.email],
-                      decoration: _inputDeco("Email", Icons.mail_outline),
-                      validator: _emailRule,
-                    ),
-                    const SizedBox(height: 14),
-
-                    // Parol
-                    TextFormField(
-                      controller: _pass,
-                      obscureText: _hide,
-                      autofillHints: const [AutofillHints.password],
-                      decoration: _inputDeco("Parol", Icons.lock_outline,
-                        suffix: IconButton(
-                          icon: Icon(_hide ? Icons.visibility_outlined : Icons.visibility_off_outlined, size: 22),
-                          onPressed: () => setState(() => _hide = !_hide),
-                        ),
-                      ),
-                      validator: (v) => (v ?? '').isEmpty ? "Parolni kiriting" : null,
-                      onFieldSubmitted: (_) => _submit(),
-                    ),
-
-                    // Xatolik
-                    if (_error != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 12),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                          decoration: BoxDecoration(color: cs.error.withValues(alpha: 0.08), borderRadius: BorderRadius.circular(10)),
-                          child: Row(children: [
-                            Icon(Icons.error_outline, color: cs.error, size: 18),
-                            const SizedBox(width: 8),
-                            Expanded(child: Text(_error!, style: TextStyle(color: cs.error, fontSize: 13))),
-                          ]),
-                        ),
-                      ),
-                    const SizedBox(height: 8),
-
-                    // Parolni unutdingizmi
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ForgotPasswordScreen())),
-                        child: const Text("Parolni unutdingizmi?", style: TextStyle(fontSize: 13)),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-
-                    // Kirish tugmasi
-                    FilledButton(
-                      style: FilledButton.styleFrom(
-                        backgroundColor: kGreen,
-                        foregroundColor: Colors.white,
-                        minimumSize: const Size.fromHeight(54),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                        elevation: 2,
-                      ),
-                      onPressed: _busy ? null : _submit,
-                      child: _busy
-                          ? const SizedBox(height: 22, width: 22, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                          : const Text("Kirish"),
-                    ),
-                    const SizedBox(height: 16),
-
-                    // Ro'yxatdan o'tish
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      const Text("Hisobingiz yo'qmi? ", style: TextStyle(color: Colors.grey)),
-                      GestureDetector(
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterScreen())),
-                        child: const Text("Ro'yxatdan o'tish", style: TextStyle(color: kGreen, fontWeight: FontWeight.bold)),
-                      ),
-                    ]),
-                  ]),
+      body: Stack(
+        children: [
+          // 1. Orqa fon surati (agar rasm bo'lmasa, silliq fitnes gradienti bilan himoyalangan)
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/welcome_bg.jpg',
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [Color(0xFF0B2516), Color(0xFF0F3B22), Color(0xFF071B10)],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+
+          // 2. Yozuvlar va tugmalar juda tiniq o'qilishi uchun qoraytiruvchi zamonaviy gradient qoplama
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    const Color(0xFF0B2516).withValues(alpha: 0.70),
+                    Colors.black.withValues(alpha: 0.88),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // 3. Asosiy shakl va elementlar
+          SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                child: FadeTransition(
+                  opacity: _fade,
+                  child: SlideTransition(
+                    position: _slide,
+                    child: Form(
+                      key: _form,
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                        // Logotip
+                        Center(
+                          child: Container(
+                            width: 72, height: 72,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(colors: [kMint, Color(0xFF4ADE80)]),
+                              borderRadius: BorderRadius.circular(22),
+                              boxShadow: [BoxShadow(color: kMint.withValues(alpha: 0.25), blurRadius: 16, offset: const Offset(0, 6))],
+                            ),
+                            child: const Icon(Icons.eco, color: kGreenDark, size: 38),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          "Xush kelibsiz!",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800, color: Colors.white),
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          "Hisobingizga kiring va davom eting",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white70, fontSize: 14),
+                        ),
+                        const SizedBox(height: 28),
+
+                        // Social login
+                        _SocialButton(icon: Icons.g_mobiledata, label: "Google orqali kirish", onTap: () {}),
+                        const SizedBox(height: 10),
+                        _SocialButton(icon: Icons.apple, label: "Apple orqali kirish", onTap: () {}),
+                        const SizedBox(height: 20),
+
+                        // Divider
+                        Row(children: [
+                          Expanded(child: Divider(color: Colors.white.withValues(alpha: 0.2))),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text("yoki", style: TextStyle(color: Colors.white.withValues(alpha: 0.6), fontSize: 13)),
+                          ),
+                          Expanded(child: Divider(color: Colors.white.withValues(alpha: 0.2))),
+                        ]),
+                        const SizedBox(height: 20),
+
+                        // Email
+                        TextFormField(
+                          controller: _email,
+                          style: const TextStyle(color: Colors.white),
+                          keyboardType: TextInputType.emailAddress,
+                          autofillHints: const [AutofillHints.email],
+                          decoration: _inputDeco("Email", Icons.mail_outline),
+                          validator: _emailRule,
+                        ),
+                        const SizedBox(height: 14),
+
+                        // Parol
+                        TextFormField(
+                          controller: _pass,
+                          style: const TextStyle(color: Colors.white),
+                          obscureText: _hide,
+                          autofillHints: const [AutofillHints.password],
+                          decoration: _inputDeco(
+                            "Parol",
+                            Icons.lock_outline,
+                            suffix: IconButton(
+                              icon: Icon(_hide ? Icons.visibility_outlined : Icons.visibility_off_outlined, size: 22, color: Colors.white70),
+                              onPressed: () => setState(() => _hide = !_hide),
+                            ),
+                          ),
+                          validator: (v) => (v ?? '').isEmpty ? "Parolni kiriting" : null,
+                          onFieldSubmitted: (_) => _submit(),
+                        ),
+
+                        // Xatolik
+                        if (_error != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                              decoration: BoxDecoration(color: cs.error.withValues(alpha: 0.15), borderRadius: BorderRadius.circular(10)),
+                              child: Row(children: [
+                                Icon(Icons.error_outline, color: cs.error, size: 18),
+                                const SizedBox(width: 8),
+                                Expanded(child: Text(_error!, style: TextStyle(color: cs.error, fontSize: 13))),
+                              ]),
+                            ),
+                          ),
+                        const SizedBox(height: 8),
+
+                        // Parolni unutdingizmi
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ForgotPasswordScreen())),
+                            child: const Text("Parolni unutdingizmi?", style: TextStyle(fontSize: 13, color: kMint, fontWeight: FontWeight.w600)),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+
+                        // Kirish tugmasi
+                        FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: kGreen,
+                            foregroundColor: Colors.white,
+                            minimumSize: const Size.fromHeight(54),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                            elevation: 2,
+                          ),
+                          onPressed: _busy ? null : _submit,
+                          child: _busy
+                              ? const SizedBox(height: 22, width: 22, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                              : const Text("Kirish"),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Ro'yxatdan o'tish
+                        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                          const Text("Hisobingiz yo'qmi? ", style: TextStyle(color: Colors.white70)),
+                          GestureDetector(
+                            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const RegisterScreen())),
+                            child: const Text("Ro'yxatdan o'tish", style: TextStyle(color: kMint, fontWeight: FontWeight.bold)),
+                          ),
+                        ]),
+                      ]),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -594,12 +641,13 @@ class _SocialButton extends StatelessWidget {
     style: OutlinedButton.styleFrom(
       minimumSize: const Size.fromHeight(52),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-      side: BorderSide(color: Colors.grey.shade300),
-      foregroundColor: Theme.of(context).textTheme.bodyLarge?.color,
+      side: BorderSide(color: Colors.white.withValues(alpha: 0.2)),
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.white.withValues(alpha: 0.08),
     ),
     onPressed: onTap,
-    icon: Icon(icon, size: 24),
-    label: Text(label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+    icon: Icon(icon, size: 24, color: Colors.white),
+    label: Text(label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
   );
 }
 
@@ -661,8 +709,10 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: ScreenBackground(
+        imageName: 'register_bg.jpg',
+        child: SafeArea(
+          child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
           child: FadeTransition(
             opacity: _fade,
@@ -792,7 +842,8 @@ class _RegisterScreenState extends State<RegisterScreen> with SingleTickerProvid
           ),
         ),
       ),
-    );
+    ),
+  );
   }
 }
 
@@ -881,23 +932,26 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text("Parolni tiklash")),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-              TextField(controller: _email, enabled: !_sent, keyboardType: TextInputType.emailAddress, decoration: const InputDecoration(labelText: "Email")),
-              const SizedBox(height: 12),
-              if (!_sent) FilledButton(onPressed: _busy ? null : _send, child: const Text("Tiklash kodini yuborish")),
-              if (_sent) ...[
-                if (_info != null) Padding(padding: const EdgeInsets.only(bottom: 12), child: Text(_info!)),
-                TextField(controller: _token, decoration: const InputDecoration(labelText: "Tiklash kodi (emaildan)")),
+        body: ScreenBackground(
+          imageName: 'welcome_bg.jpg',
+          child: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                TextField(controller: _email, enabled: !_sent, keyboardType: TextInputType.emailAddress, decoration: const InputDecoration(labelText: "Email")),
                 const SizedBox(height: 12),
-                TextField(controller: _pass, obscureText: true, decoration: const InputDecoration(labelText: "Yangi parol")),
-                const SizedBox(height: 12),
-                FilledButton(onPressed: _busy ? null : _reset, child: const Text("Parolni yangilash")),
-              ],
-              if (_error != null) Padding(padding: const EdgeInsets.only(top: 12), child: Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error))),
-            ]),
+                if (!_sent) FilledButton(onPressed: _busy ? null : _send, child: const Text("Tiklash kodini yuborish")),
+                if (_sent) ...[
+                  if (_info != null) Padding(padding: const EdgeInsets.only(bottom: 12), child: Text(_info!)),
+                  TextField(controller: _token, decoration: const InputDecoration(labelText: "Tiklash kodi (emaildan)")),
+                  const SizedBox(height: 12),
+                  TextField(controller: _pass, obscureText: true, decoration: const InputDecoration(labelText: "Yangi parol")),
+                  const SizedBox(height: 12),
+                  FilledButton(onPressed: _busy ? null : _reset, child: const Text("Parolni yangilash")),
+                ],
+                if (_error != null) Padding(padding: const EdgeInsets.only(top: 12), child: Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error))),
+              ]),
+            ),
           ),
         ),
       );

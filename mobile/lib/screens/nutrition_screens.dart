@@ -52,14 +52,14 @@ class _NutritionScreenState extends State<NutritionScreen> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF0F1512) : const Color(0xFFF7FAF8),
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: const Text(
           "Ovqatlanish",
           style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
         ),
         elevation: 0,
-        backgroundColor: isDark ? const Color(0xFF141C17) : Colors.white,
+        backgroundColor: isDark ? const Color(0xFF141C17).withAlpha(220) : Colors.white.withAlpha(220),
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: kGreen,
@@ -71,7 +71,9 @@ class _NutritionScreenState extends State<NutritionScreen> {
           if (await addCustomMeal(context)) setState(() => _epoch++);
         },
       ),
-      body: Loader<_NutData>(
+      body: ScreenBackground(
+        imageName: 'nutrition_bg.jpg',
+        child: Loader<_NutData>(
         key: ValueKey(_epoch),
         load: _load,
         builder: (context, d, reload) {
@@ -438,7 +440,8 @@ class _NutritionScreenState extends State<NutritionScreen> {
           );
         },
       ),
-    );
+    ),
+  );
   }
 }
 

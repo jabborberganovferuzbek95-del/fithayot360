@@ -401,9 +401,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final now = DateTime.now();
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF0F1512) : const Color(0xFFF7FAF8),
-      body: SafeArea(
-        child: Loader<_Dash>(
+      backgroundColor: Colors.transparent,
+      body: ScreenBackground(
+        imageName: 'dashboard_bg.jpg',
+        child: SafeArea(
+          child: Loader<_Dash>(
           load: _load,
           builder: (context, d, reload) {
             final t = d.t;
@@ -887,6 +889,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           },
         ),
       ),
-    );
+    ),
+  );
   }
 }

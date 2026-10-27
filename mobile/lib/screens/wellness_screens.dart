@@ -47,8 +47,12 @@ class WaterScreen extends StatelessWidget {
   Widget build(BuildContext context) => DefaultTabController(
         length: 3,
         child: Scaffold(
+          backgroundColor: Colors.transparent,
           appBar: AppBar(title: const Text("Suv"), bottom: const TabBar(tabs: [Tab(text: "Bugun"), Tab(text: "Hafta"), Tab(text: "Oy")])),
-          body: const TabBarView(children: [_WaterToday(), _WaterRange(days: 7), _WaterRange(days: 30)]),
+          body: const ScreenBackground(
+            imageName: 'wellness_bg.jpg',
+            child: TabBarView(children: [_WaterToday(), _WaterRange(days: 7), _WaterRange(days: 30)]),
+          ),
         ),
       );
 }
@@ -201,8 +205,12 @@ class SleepScreen extends StatelessWidget {
   Widget build(BuildContext context) => DefaultTabController(
         length: 3,
         child: Scaffold(
+          backgroundColor: Colors.transparent,
           appBar: AppBar(title: const Text("Uyqu"), bottom: const TabBar(tabs: [Tab(text: "Kuzatuv"), Tab(text: "Maslahatlar"), Tab(text: "Tarix")])),
-          body: const TabBarView(children: [_SleepTrack(), _SleepTips(), _SleepHistory()]),
+          body: const ScreenBackground(
+            imageName: 'wellness_bg.jpg',
+            child: TabBarView(children: [_SleepTrack(), _SleepTips(), _SleepHistory()]),
+          ),
         ),
       );
 }

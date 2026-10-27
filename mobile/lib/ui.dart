@@ -340,3 +340,64 @@ class HeroBox extends StatelessWidget {
         ),
       );
 }
+
+/// Ilova oynalari uchun orqa fon rasmi (fallback gradient va xira overlay bilan)
+class ScreenBackground extends StatelessWidget {
+  const ScreenBackground({
+    super.key,
+    required this.imageName,
+    required this.child,
+    this.overlayOpacity,
+    this.forceDark = false,
+  });
+
+  final String imageName;
+  final Widget child;
+  final double? overlayOpacity;
+  final bool forceDark;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = forceDark || Theme.of(context).brightness == Brightness.dark;
+    final double opacity = overlayOpacity ?? (isDark ? 0.86 : 0.82);
+
+    return Stack(
+      children: [
+        // 1. Orqa fon surati (agar rasm hali mavjud bo'lmasa, silliq fitnes foni beriladi)
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/$imageName',
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => Container(
+              color: isDark ? const Color(0xFF0F1512) : const Color(0xFFF7FAF8),
+            ),
+          ),
+        ),
+
+        // 2. Kontrast va yozuvlar aniq ko'rinishi uchun zamonaviy qoplama
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: isDark
+                    ? [
+                        const Color(0xFF0B2516).withValues(alpha: 0.65),
+                        Colors.black.withValues(alpha: opacity),
+                      ]
+                    : [
+                        Colors.white.withValues(alpha: opacity),
+                        const Color(0xFFF0F5F2).withValues(alpha: 0.94),
+                      ],
+              ),
+            ),
+          ),
+        ),
+
+        // 3. Asosiy tarkib (child)
+        Positioned.fill(child: child),
+      ],
+    );
+  }
+}

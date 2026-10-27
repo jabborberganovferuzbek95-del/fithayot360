@@ -29,10 +29,10 @@ class CatalogScreen extends StatelessWidget {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: isDark ? const Color(0xFF0F1512) : const Color(0xFFF7FAF8),
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: isDark ? const Color(0xFF141C17) : Colors.white,
+          backgroundColor: isDark ? const Color(0xFF141C17).withAlpha(220) : Colors.white.withAlpha(220),
           title: const Text(
             "Mashqlar",
             style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
@@ -68,13 +68,16 @@ class CatalogScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: const TabBarView(
-          children: [
-            ProgramsTab(),
-            ExerciseList(mode: 'home'),
-            ExerciseList(mode: 'gym'),
-            ActiveScreen(embedded: true),
-          ],
+        body: const ScreenBackground(
+          imageName: 'workout_bg.jpg',
+          child: TabBarView(
+            children: [
+              ProgramsTab(),
+              ExerciseList(mode: 'home'),
+              ExerciseList(mode: 'gym'),
+              ActiveScreen(embedded: true),
+            ],
+          ),
         ),
       ),
     );

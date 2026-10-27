@@ -16,14 +16,14 @@ class StatsScreen extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: isDark ? const Color(0xFF0F1512) : const Color(0xFFF7FAF8),
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: const Text(
             "Statistika",
             style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
           ),
           elevation: 0,
-          backgroundColor: isDark ? const Color(0xFF141C17) : Colors.white,
+          backgroundColor: isDark ? const Color(0xFF141C17).withAlpha(220) : Colors.white.withAlpha(220),
           bottom: TabBar(
             indicatorColor: kGreen,
             indicatorWeight: 3,
@@ -38,12 +38,15 @@ class StatsScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: const TabBarView(
-          children: [
-            StatsOverview(),
-            ProgressView(),
-            HistoryView(),
-          ],
+        body: const ScreenBackground(
+          imageName: 'wellness_bg.jpg',
+          child: TabBarView(
+            children: [
+              StatsOverview(),
+              ProgressView(),
+              HistoryView(),
+            ],
+          ),
         ),
       ),
     );
