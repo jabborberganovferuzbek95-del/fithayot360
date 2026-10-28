@@ -207,6 +207,14 @@ class _SessionScreenState extends State<SessionScreen> {
                               ],
                             ),
                           ),
+                          IconButton(
+                            tooltip: "Qanday bajariladi (GIF)",
+                            icon: const Icon(Icons.play_circle_fill_rounded, color: kGreen),
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => ExerciseDetailScreen(exercise: it.exercise)),
+                            ),
+                          ),
                           FilledButton.tonal(
                             style: FilledButton.styleFrom(
                               backgroundColor: kGreen.withAlpha(isDark ? 45 : 30),

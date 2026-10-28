@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 
@@ -11,6 +12,7 @@ from . import seed
 from .config import settings
 from .database import Base, SessionLocal, engine
 from .migrate import ensure_columns
+from .media import STATIC_DIR
 from .routers import (activities, admin, auth, dashboard, exercises, habits, insights, me, nutrition, plans, programs,
                       progress, sessions, wellness)
 
@@ -78,3 +80,7 @@ def health():
 for r in (auth.router, me.router, exercises.router, plans.router, sessions.router, activities.router,
           progress.router, admin.router, wellness.router, nutrition.router, dashboard.router, programs.router, habits.router, insights.router):
     app.include_router(r)
+
+# Fon rasmlari va mashq GIF/videolari serverdan beriladi (ilova hajmini kichik tutish uchun)
+STATIC_DIR.mkdir(exist_ok=True)
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")

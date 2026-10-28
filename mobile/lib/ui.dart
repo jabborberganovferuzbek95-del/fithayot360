@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'api_client.dart';
+import 'config.dart';
 
 // ---------- Mavzu ----------
 const kGreen = Color(0xFF16803C);
@@ -365,9 +366,11 @@ class ScreenBackground extends StatelessWidget {
       children: [
         // 1. Orqa fon surati (agar rasm hali mavjud bo'lmasa, silliq fitnes foni beriladi)
         Positioned.fill(
-          child: Image.asset(
-            'assets/images/$imageName',
+          child: Image.network(
+            mediaUrl('static/backgrounds/$imageName'),
             fit: BoxFit.cover,
+            gaplessPlayback: true,
+            cacheWidth: 900,
             errorBuilder: (context, error, stackTrace) => Container(
               color: isDark ? const Color(0xFF0F1512) : const Color(0xFFF7FAF8),
             ),
@@ -398,6 +401,47 @@ class ScreenBackground extends StatelessWidget {
         // 3. Asosiy tarkib (child)
         Positioned.fill(child: child),
       ],
+    );
+  }
+}
+
+/// Mashq bajarilishini ko'rsatuvchi GIF/animatsiya (serverdan yuklanadi va keshlanadi)
+class ExerciseMedia extends StatelessWidget {
+  const ExerciseMedia({super.key, required this.url, this.height = 240});
+  final String? url;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final box = isDark ? const Color(0xFF161F1A) : Colors.white;
+    Widget placeholder(IconData icon, String text) => Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 40, color: Colors.grey),
+              const SizedBox(height: 8),
+              Text(text, style: const TextStyle(color: Colors.grey, fontSize: 13)),
+            ],
+          ),
+        );
+    final u = url;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        height: height,
+        color: box,
+        child: u == null
+            ? placeholder(Icons.play_circle_outline_rounded, "Ko'rsatma tez orada qo'shiladi")
+            : Image.network(
+                mediaUrl(u),
+                fit: BoxFit.contain,
+                gaplessPlayback: true,
+                loadingBuilder: (c, child, p) =>
+                    p == null ? child : const Center(child: CircularProgressIndicator(strokeWidth: 3)),
+                errorBuilder: (c, e, s) => placeholder(Icons.wifi_off_rounded, "Ko'rsatmani yuklab bo'lmadi"),
+              ),
+      ),
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'app_state.dart';
 import 'screens/auth_screens.dart';
 import 'screens/home_shell.dart';
-import 'screens/profile_screens.dart';
 import 'ui.dart';
 
 void main() {
@@ -34,12 +33,9 @@ class RootGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final app = context.watch<AppState>();
-    return switch (app.status) {
-      AuthStatus.loading => SplashScreen(error: app.bootError),
-      AuthStatus.onboarding => const OnboardingScreen(),
-      AuthStatus.signedOut => const LoginScreen(),
-      AuthStatus.needsProfile => const ProfileSetupScreen(),
-      AuthStatus.ready => const MainShell(),
-    };
+    if (app.status == AuthStatus.loading) {
+      return SplashScreen(error: app.bootError);
+    }
+    return const MainShell();
   }
 }

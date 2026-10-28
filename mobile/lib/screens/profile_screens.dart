@@ -789,7 +789,6 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final app = context.watch<AppState>();
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
@@ -820,13 +819,9 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
         ),
         actions: [
           TextButton.icon(
-            onPressed: () async {
-              if (await confirm(context, "Chiqish", "Sozlashni to'xtatib chiqasizmi?")) {
-                app.logout();
-              }
-            },
-            icon: const Icon(Icons.logout, size: 18, color: Colors.grey),
-            label: const Text("Chiqish", style: TextStyle(color: Colors.grey, fontSize: 13)),
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.close, size: 18, color: Colors.grey),
+            label: const Text("Yopish", style: TextStyle(color: Colors.grey, fontSize: 13)),
           ),
           const SizedBox(width: 8),
         ],
@@ -1338,9 +1333,12 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
         ListTile(
-          leading: const Icon(Icons.logout, color: Colors.red),
-          title: const Text("Chiqish", style: TextStyle(color: Colors.red)),
-          onTap: () async { if (await confirm(context, "Chiqish", "Hisobdan chiqasizmi?")) app.logout(); },
+          leading: const Icon(Icons.refresh, color: kMint),
+          title: const Text("Ma'lumotlarni yangilash"),
+          onTap: () async {
+            await app.init();
+            if (context.mounted) toast(context, "Ma'lumotlar yangilandi");
+          },
         ),
       ]),
     );

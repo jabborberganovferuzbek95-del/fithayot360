@@ -144,6 +144,14 @@ class Exercise(Base):
     def mode(self) -> str:
         return self.category.mode
 
+    @property
+    def media_url(self) -> Optional[str]:
+        """Mashq ko'rsatma GIF/video manzili (serverdagi nisbiy yo'l yoki to'liq URL)."""
+        if self.image_url:
+            return self.image_url
+        from .media import exercise_media_path
+        return exercise_media_path(self.id)
+
 
 class ContentAudit(Base):
     __tablename__ = "content_audit"

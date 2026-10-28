@@ -36,9 +36,32 @@ class Me {
         email = j['email'],
         fullName = j['full_name'],
         role = j['role'],
-        profile = Map<String, dynamic>.from(j['profile']),
-        settings = Map<String, dynamic>.from(j['settings']),
-        profileCompleted = j['profile_completed'];
+        profile = Map<String, dynamic>.from(j['profile'] ?? {}),
+        settings = Map<String, dynamic>.from(j['settings'] ?? {}),
+        profileCompleted = j['profile_completed'] ?? true;
+
+  factory Me.defaultUser() => Me.fromJson({
+        'id': 1,
+        'email': 'foydalanuvchi@fithayot.uz',
+        'full_name': 'FitHayot Foydalanuvchisi',
+        'role': 'user',
+        'profile': {
+          'goal': 'general_fitness',
+          'experience_level': 'beginner',
+          'preferred_location': 'home',
+          'daily_minutes': 30,
+          'height_cm': 175.0,
+          'weight_kg': 70.0,
+          'birth_year': 2000,
+          'gender': 'prefer_not_to_say',
+        },
+        'settings': {
+          'language_code': 'uz',
+          'reminders_enabled': true,
+        },
+        'profile_completed': true,
+      });
+
   final int id;
   final String email, role;
   final String? fullName;
@@ -55,10 +78,11 @@ class Exercise {
         difficulty = j['difficulty'] ?? 'beginner',
         safetyNote = j['safety_note'] ?? '',
         durationHint = j['duration_hint'],
+        mediaUrl = j['media_url'],
         mode = (j['mode'] ?? (j['category'] as Map?)?['mode'] ?? 'home') as String;
   final int id;
   final String title, description, equipment, difficulty, safetyNote, mode;
-  final String? durationHint;
+  final String? durationHint, mediaUrl;
 }
 
 class PlanItem {

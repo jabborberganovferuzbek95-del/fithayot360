@@ -9,3 +9,5 @@ mobile/.dart_tool/
 .idea/
 *.png
 test.db
+
+!backend/static/**/*.png

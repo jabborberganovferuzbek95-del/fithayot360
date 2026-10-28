@@ -649,6 +649,9 @@ class ExerciseDetailScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(18),
         children: [
+          // Mashq qanday bajarilishi (GIF) — serverdan
+          ExerciseMedia(url: exercise.mediaUrl),
+          const SizedBox(height: 16),
           // Banner / Header Box
           Container(
             padding: const EdgeInsets.all(20),

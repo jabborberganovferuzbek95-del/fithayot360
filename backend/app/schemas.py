@@ -138,6 +138,7 @@ class ExerciseBrief(ORM):
     title: str
     mode: Mode
     equipment: str
+    media_url: Optional[str] = None
 
 
 class ExerciseOut(ORM):
@@ -149,6 +150,7 @@ class ExerciseOut(ORM):
     duration_hint: Optional[str] = None
     safety_note: str
     image_url: Optional[str] = None
+    media_url: Optional[str] = None
     is_active: bool
     category: CategoryOut
 
