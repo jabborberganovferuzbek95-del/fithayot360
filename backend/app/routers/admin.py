@@ -40,3 +40,60 @@ def update_exercise(
     db.commit()
     db.refresh(ex)
     return ex
+
+
+@router.post("/clear-user-data")
+@router.get("/clear-user-data")
+def clear_user_data(db: Session = Depends(get_db)):
+    """Foydalanuvchilarning barcha faolliklari, seanslari, odatlari va kundalik loglarini tozalaydi.
+    Katalog (mashqlar, toifalar, dasturlar, retseptlar) saqlab qolinadi.
+    """
+    from ..models import (
+        ActivityLog,
+        ConsentEvent,
+        ExerciseLog,
+        Habit,
+        HabitCheck,
+        MealLog,
+        MeditationLog,
+        PlanItem,
+        SleepLog,
+        StepLog,
+        UserGoal,
+        WaterLog,
+        WorkoutPlan,
+        WorkoutSession,
+    )
+
+    models_to_clear = [
+        ExerciseLog,
+        WorkoutSession,
+        PlanItem,
+        WorkoutPlan,
+        ActivityLog,
+        StepLog,
+        WaterLog,
+        SleepLog,
+        MeditationLog,
+        MealLog,
+        HabitCheck,
+        Habit,
+        UserGoal,
+        ConsentEvent,
+    ]
+
+    deleted_counts = {}
+    for model in models_to_clear:
+        try:
+            deleted = db.query(model).delete()
+            deleted_counts[model.__tablename__] = deleted
+        except Exception:
+            db.rollback()
+
+    db.commit()
+    return {
+        "status": "ok",
+        "message": "Foydalanuvchilarning barcha faollik va mashg'ulotlar tarixi muvaffaqiyatli tozalandi.",
+        "deleted": deleted_counts,
+    }
+

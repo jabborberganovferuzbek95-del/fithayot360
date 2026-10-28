@@ -1429,6 +1429,25 @@ class PrivacyScreen extends StatelessWidget {
     }
   }
 
+  Future<void> _clearActivityData(BuildContext context) async {
+    final ok = await confirm(
+      context,
+      "Faollik tarixini tozalash",
+      "Barcha mashg'ulotlar seanslari, qadamlar, suv, uyqu va odatlar tarixi tozalanadi. Mashqlar katalogi va hisobingiz saqlanib qoladi. Davom etasizmi?",
+      ok: "Tozalash",
+    );
+    if (!ok) return;
+    try {
+      final app = context.read<AppState>();
+      await app.api.post('/admin/clear-user-data');
+      if (context.mounted) {
+        toast(context, "Barcha faolliklar va mashg'ulotlar tarixi tozalandi!");
+      }
+    } catch (e) {
+      if (context.mounted) toast(context, errMsg(e));
+    }
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text("Maxfiylik va xavfsizlik")),
@@ -1443,6 +1462,7 @@ class PrivacyScreen extends StatelessWidget {
             Text("Vazn, bo'y, yosh, kasalliklar, joylashuv (GPS) va kontaktlar. Ma'lumotlar reklama uchun sotilmaydi."),
           ])),
           ListTile(leading: const Icon(Icons.download_outlined), title: const Text("Ma'lumotlarimni eksport qilish"), onTap: () => _export(context)),
+          ListTile(leading: const Icon(Icons.cleaning_services_outlined, color: Colors.orange), title: const Text("Faollik tarixini tozalash"), subtitle: const Text("Seanslar, qadam, suv, odat va uyqu qaydlarini tozalash"), onTap: () => _clearActivityData(context)),
           ListTile(leading: const Icon(Icons.delete_outline, color: Colors.red), title: const Text("Hisobni o'chirish", style: TextStyle(color: Colors.red)), onTap: () => _delete(context)),
         ]),
       );
