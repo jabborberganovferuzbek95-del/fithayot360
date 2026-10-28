@@ -360,7 +360,7 @@ class ScreenBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = forceDark || Theme.of(context).brightness == Brightness.dark;
-    final double opacity = overlayOpacity ?? (isDark ? 0.86 : 0.82);
+    final double opacity = overlayOpacity ?? (isDark ? 0.32 : 0.22);
 
     return Stack(
       children: [
@@ -370,7 +370,7 @@ class ScreenBackground extends StatelessWidget {
             mediaUrl('static/backgrounds/$imageName'),
             fit: BoxFit.cover,
             gaplessPlayback: true,
-            cacheWidth: 900,
+            cacheWidth: 1080,
             errorBuilder: (context, error, stackTrace) => Container(
               color: isDark ? const Color(0xFF0F1512) : const Color(0xFFF7FAF8),
             ),
@@ -386,12 +386,12 @@ class ScreenBackground extends StatelessWidget {
                 end: Alignment.bottomCenter,
                 colors: isDark
                     ? [
-                        const Color(0xFF0B2516).withValues(alpha: 0.65),
+                        Colors.black.withValues(alpha: 0.12),
                         Colors.black.withValues(alpha: opacity),
                       ]
                     : [
+                        Colors.white.withValues(alpha: 0.08),
                         Colors.white.withValues(alpha: opacity),
-                        const Color(0xFFF0F5F2).withValues(alpha: 0.94),
                       ],
               ),
             ),
