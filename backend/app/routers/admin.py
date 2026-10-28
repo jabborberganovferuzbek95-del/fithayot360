@@ -48,45 +48,30 @@ def clear_user_data(db: Session = Depends(get_db)):
     """Foydalanuvchilarning barcha faolliklari, seanslari, odatlari va kundalik loglarini tozalaydi.
     Katalog (mashqlar, toifalar, dasturlar, retseptlar) saqlab qolinadi.
     """
-    from ..models import (
-        ActivityLog,
-        ConsentEvent,
-        ExerciseLog,
-        Habit,
-        HabitCheck,
-        MealLog,
-        MeditationLog,
-        PlanItem,
-        SleepLog,
-        StepLog,
-        UserGoal,
-        WaterLog,
-        WorkoutPlan,
-        WorkoutSession,
-    )
+    from sqlalchemy import text
 
-    models_to_clear = [
-        ExerciseLog,
-        WorkoutSession,
-        PlanItem,
-        WorkoutPlan,
-        ActivityLog,
-        StepLog,
-        WaterLog,
-        SleepLog,
-        MeditationLog,
-        MealLog,
-        HabitCheck,
-        Habit,
-        UserGoal,
-        ConsentEvent,
+    tables_to_clear = [
+        "exercise_logs",
+        "workout_sessions",
+        "plan_items",
+        "workout_plans",
+        "activity_logs",
+        "step_logs",
+        "water_logs",
+        "sleep_logs",
+        "meditation_logs",
+        "meal_logs",
+        "habit_checks",
+        "habits",
+        "user_goals",
+        "consent_events",
     ]
 
     deleted_counts = {}
-    for model in models_to_clear:
+    for tbl in tables_to_clear:
         try:
-            deleted = db.query(model).delete()
-            deleted_counts[model.__tablename__] = deleted
+            res = db.execute(text(f"DELETE FROM {tbl}"))
+            deleted_counts[tbl] = res.rowcount if hasattr(res, "rowcount") else 0
         except Exception:
             db.rollback()
 
