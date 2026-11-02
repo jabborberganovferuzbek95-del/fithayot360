@@ -77,7 +77,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with TickerProvider
 
   static const _features = [
     (Icons.fitness_center, "Mashqlar va trenirovkalar", "Uy, zal va faol mashg'ulotlar"),
-    (Icons.restaurant_menu, "Ovqatlanish va ratsion", "Kaloriya va nutrient kuzatuvi"),
+    (Icons.directions_run, "Faollik va qadamlar", "Kunlik qadam va yurish tahlili"),
     (Icons.water_drop, "Suv va suyuqlik me'yori", "Kunlik suv ichish rejasi"),
     (Icons.bedtime, "Uyqu va dam olish", "Uyqu sifatini kuzatish"),
     (Icons.self_improvement, "Meditatsiya va nafas mashqlari", "Stressni kamaytirish"),

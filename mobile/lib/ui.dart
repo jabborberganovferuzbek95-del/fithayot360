@@ -288,21 +288,6 @@ class MiniBars extends StatelessWidget {
   }
 }
 
-const mealTypeLabels = {'breakfast': "Nonushta", 'lunch': "Tushlik", 'dinner': "Kechki ovqat", 'snack': "Snek", 'detox': "Detoks"};
-IconData mealIcon(String t) => switch (t) {
-      'breakfast' => Icons.free_breakfast,
-      'lunch' => Icons.lunch_dining,
-      'dinner' => Icons.dinner_dining,
-      'snack' => Icons.cookie,
-      _ => Icons.eco,
-    };
-Color mealColor(String t) => switch (t) {
-      'breakfast' => Colors.orange,
-      'lunch' => Colors.green,
-      'dinner' => Colors.deepPurple,
-      'snack' => Colors.pink,
-      _ => Colors.teal,
-    };
 
 
 Color cardBg(BuildContext c) => Theme.of(c).brightness == Brightness.dark ? const Color(0xFF1B2420) : Colors.white;

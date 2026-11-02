@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../api_client.dart';
 import '../app_state.dart';
 import '../ui.dart';
-import 'nutrition_screens.dart';
 import 'programs_screens.dart';
 
 ApiClient _api(BuildContext c) => c.read<AppState>().api;
@@ -124,7 +123,7 @@ class _CoachScreenState extends State<CoachScreen> {
   final _msgs = <_Msg>[_Msg(false, "Salom! Men ilovadagi ma'lumotlaringiz asosida qisqa maslahat beraman. Quyidagi savollardan birini tanlang.")];
   bool _busy = false;
 
-  static const _topics = [("Bugun nima qilay?", 'today'), ("Mashq tavsiya qil", 'workout'), ("Ovqat tavsiya qil", 'meal'), ("Holatim qanday?", 'status')];
+  static const _topics = [("Bugun nima qilay?", 'today'), ("Mashq tavsiya qil", 'workout'), ("Holatim qanday?", 'status')];
 
   Future<void> _ask(String label, String topic) async {
     if (_busy) return;
@@ -144,13 +143,6 @@ class _CoachScreenState extends State<CoachScreen> {
   Future<void> _open(Map<String, dynamic> action) async {
     if (action['type'] == 'program') {
       Navigator.push(context, MaterialPageRoute(builder: (_) => ProgramDetailScreen(programId: action['id'] as int)));
-    } else {
-      try {
-        final r = await _api(context).getMap('/recipes/${action['id']}');
-        if (mounted) Navigator.push(context, MaterialPageRoute(builder: (_) => RecipeDetailScreen(recipe: r)));
-      } on ApiException catch (e) {
-        toast(context, e.message);
-      }
     }
   }
 
@@ -171,8 +163,8 @@ class _CoachScreenState extends State<CoachScreen> {
                     decoration: BoxDecoration(color: m.mine ? kGreen : cardBg(context), borderRadius: BorderRadius.circular(16), boxShadow: const [BoxShadow(color: Color(0x12000000), blurRadius: 6)]),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
                       Text(m.text, style: TextStyle(color: m.mine ? Colors.white : null)),
-                      if (m.action != null)
-                        Padding(padding: const EdgeInsets.only(top: 8), child: FilledButton.tonal(style: FilledButton.styleFrom(minimumSize: const Size(120, 38)), onPressed: () => _open(m.action!), child: Text(m.action!['type'] == 'program' ? "Dasturni ochish" : "Retseptni ochish"))),
+                      if (m.action != null && m.action!['type'] == 'program')
+                        Padding(padding: const EdgeInsets.only(top: 8), child: FilledButton.tonal(style: FilledButton.styleFrom(minimumSize: const Size(120, 38)), onPressed: () => _open(m.action!), child: const Text("Dasturni ochish"))),
                     ]),
                   ),
                 ),

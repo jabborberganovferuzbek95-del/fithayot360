@@ -296,7 +296,7 @@ class _SleepTips extends StatelessWidget {
     (Icons.schedule, "Rejim", "Iloji boricha har kuni bir xil vaqtda yoting va turing."),
     (Icons.phone_android, "Ekranlar", "Uxlashdan taxminan 1 soat oldin telefon va televizorni kamaytiring."),
     (Icons.dark_mode, "Xona", "Yotoqxonani qorong'i, sokin va salqin saqlang."),
-    (Icons.local_cafe, "Kofein va ovqat", "Kechqurun kofein va og'ir ovqatdan ehtiyot bo'ling."),
+    (Icons.local_cafe, "Kofein va ichimlik", "Kechqurun kofein va ortiqcha ichimliklardan ehtiyot bo'ling."),
     (Icons.wb_sunny, "Kun tartibi", "Kunduzi harakat qiling va ertalab tabiiy yorug'likka chiqing."),
     (Icons.self_improvement, "Tinchlanish", "Yotishdan oldin yengil nafas mashqi yoki kitob o'qish yordam beradi."),
   ];
@@ -563,7 +563,6 @@ class _GoalsFormState extends State<_GoalsForm> {
         _row("Suv", '${fmtL(water.round())} L', water, 1000, 5000, 16, (v) => setState(() => water = v)),
         _row("Uyqu", fmtSleep(sleep.round()), sleep, 360, 600, 16, (v) => setState(() => sleep = v)),
         _row("Mashq / faol vaqt", '${workout.round()} daq', workout, 10, 120, 22, (v) => setState(() => workout = v)),
-        _row("Ovqat kaloriyasi", '${fmtInt(kcal.round())} kkal', kcal, 1200, 3500, 46, (v) => setState(() => kcal = v)),
         const SizedBox(height: 12),
         FilledButton(onPressed: _busy ? null : _save, child: const Text("Saqlash")),
       ]);
@@ -580,7 +579,7 @@ class _PremiumScreenState extends State<PremiumScreen> {
   int _epoch = 0;
   static const _plans = [
     "Qo'shimcha mashq dasturlari",
-    "Shaxsiy ovqatlanish rejasi",
+    "Shaxsiy faollik va odatlar rejasi",
     "Batafsil statistika va eksport",
     "Reklamasiz ilova",
   ];

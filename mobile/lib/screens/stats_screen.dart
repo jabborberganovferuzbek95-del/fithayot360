@@ -5,7 +5,7 @@ import '../app_state.dart';
 import '../ui.dart';
 import 'results_screens.dart';
 
-/// Statistika: Umumiy (qadam, kaloriya, faol vaqt, suv, uyqu) + Progress + Tarix
+/// Statistika: Umumiy (qadam, faol vaqt, suv, uyqu, meditatsiya) + Progress + Tarix
 class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
 
@@ -252,22 +252,6 @@ class _StatsOverviewState extends State<StatsOverview> {
                         const SizedBox(width: 12),
                         _metricCard(
                           context: context,
-                          title: "Ovqat kaloriyasi",
-                          big: '${fmtInt(t['calories_in'] as int)} kkal',
-                          sub: "o'rtacha ${fmtInt(a['calories_in'] as int)} $per",
-                          series: s('calories_in'),
-                          color: Colors.orange,
-                          icon: Icons.restaurant_rounded,
-                          isDark: isDark,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _metricCard(
-                          context: context,
                           title: "Faol vaqt",
                           big: fmtMinutes(t['active_minutes'] as int),
                           sub: "o'rtacha ${a['active_minutes']} daq $per",
@@ -276,7 +260,12 @@ class _StatsOverviewState extends State<StatsOverview> {
                           icon: Icons.timer_rounded,
                           isDark: isDark,
                         ),
-                        const SizedBox(width: 12),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         _metricCard(
                           context: context,
                           title: "Suv",
@@ -287,12 +276,7 @@ class _StatsOverviewState extends State<StatsOverview> {
                           icon: Icons.water_drop_rounded,
                           isDark: isDark,
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                        const SizedBox(width: 12),
                         _metricCard(
                           context: context,
                           title: "Uyqu",
@@ -303,12 +287,17 @@ class _StatsOverviewState extends State<StatsOverview> {
                           icon: Icons.bedtime_rounded,
                           isDark: isDark,
                         ),
-                        const SizedBox(width: 12),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         _metricCard(
                           context: context,
                           title: "Meditatsiya",
                           big: fmtMinutes(t['meditation_min'] as int),
-                          sub: "jami",
+                          sub: "jami tinchlanish vaqti",
                           series: s('meditation_min'),
                           color: Colors.teal,
                           icon: Icons.self_improvement_rounded,

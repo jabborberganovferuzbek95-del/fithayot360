@@ -1329,7 +1329,7 @@ class SettingsScreen extends StatelessWidget {
             context: context,
             applicationName: "FitHayot 360",
             applicationVersion: "3.0.0",
-            children: const [Text("Home, Gym va Active mashg'ulotlari, ovqatlanish, suv, uyqu, meditatsiya va odatlarni bitta hisobda yuritish. Ilova tibbiy maslahat bermaydi va sun'iy intellekt ishlatmaydi. 18 yosh va undan kattalar uchun.")],
+            children: const [Text("Home, Gym va Active mashg'ulotlari, suv, uyqu, meditatsiya va odatlarni bitta hisobda yuritish. Ilova tibbiy maslahat bermaydi va sun'iy intellekt ishlatmaydi. 18 yosh va undan kattalar uchun.")],
           ),
         ),
         ListTile(
@@ -1409,7 +1409,7 @@ class PrivacyScreen extends StatelessWidget {
       builder: (_) => AlertDialog(
         title: const Text("Hisobni o'chirish"),
         content: Column(mainAxisSize: MainAxisSize.min, children: [
-          const Text("Barcha rejalar, seanslar, suv, uyqu, ovqat va boshqa qaydlar qaytarib bo'lmas tarzda o'chiriladi. Tasdiqlash uchun parolingizni kiriting."),
+          const Text("Barcha rejalar, seanslar, suv, uyqu va boshqa qaydlar qaytarib bo'lmas tarzda o'chiriladi. Tasdiqlash uchun parolingizni kiriting."),
           const SizedBox(height: 12),
           TextField(controller: pass, obscureText: true, decoration: const InputDecoration(labelText: "Parol")),
         ]),
@@ -1455,7 +1455,7 @@ class PrivacyScreen extends StatelessWidget {
           const AppCard(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text("Qanday ma'lumotlar saqlanadi", style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 6),
-            Text("Email va ism, maqsad va sozlamalar, siz kiritgan mashq, faollik, suv, uyqu, qadam, ovqat va meditatsiya qaydlari. Parol shifrlangan holda (bcrypt) saqlanadi."),
+            Text("Email va ism, maqsad va sozlamalar, siz kiritgan mashq, faollik, suv, uyqu, qadam va meditatsiya qaydlari. Parol shifrlangan holda (bcrypt) saqlanadi."),
             SizedBox(height: 10),
             Text("Nimalar so'ralmaydi", style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 6),
@@ -1472,7 +1472,7 @@ class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
   static const _faq = [
     ("Qadamlar qanday hisoblanadi?", "Ilova qadamni avtomatik sanamaydi. Bosh sahifadagi kartani bosib, telefon yoki soatingizdagi sonni kiriting."),
-    ("Kaloriya qiymatlari aniqmi?", "Retseptlardagi kaloriya taxminiy. Ilova yoqilgan kaloriyani hisoblamaydi va dietolog maslahatini almashtirmaydi."),
+    ("Ko'rsatkichlar qanday hisoblanadi?", "Ko'rsatkichlar siz kiritgan ma'lumotlar asosida hisoblanadi va tibbiy xulosa hisoblanmaydi."),
     ("Maslahatchi sun'iy intellektmi?", "Yo'q. U sizning ma'lumotlaringiz va oddiy qoidalar asosida tavsiya beradi."),
     ("Ma'lumotlarimni qanday o'chiraman?", "Sozlamalar → Maxfiylik va xavfsizlik → Hisobni o'chirish."),
     ("Ilova shifokor o'rnini bosadimi?", "Yo'q. Og'riq, bosh aylanishi yoki nafas qisilishi sezsangiz, mashqni to'xtating va shifokorga murojaat qiling."),
